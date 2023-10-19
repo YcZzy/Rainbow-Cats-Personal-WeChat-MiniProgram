@@ -1,22 +1,24 @@
 App({
   async onLaunch() {
     this.initcloud()
-
     this.globalData = {
-      //记录使用者的openid
-      _openidA: 'onsgK5XqCMLbYXudVgh3xjV4kgWw',
-      _openidB: 'onsgK5Zc7t-bFdnFk3_krqdIRZYY',
-
-      //记录使用者的名字
-      userA: '卡比',
-      userB: '瓦豆',
-
+      userInfoA: {
+        avatarUrl: "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0",
+        credit: 0,
+        nickname: "大熊",
+        _openid: ""
+      },
+      userInfoB: {
+        avatarUrl: "https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0",
+        credit: 0,
+        nickname: "静香",
+        _openid: ""
+      },
       //用于存储待办记录的集合名称
       collectionMissionList: 'MissionList',
       collectionMarketList: 'MarketList',
       collectionStorageList: 'StorageList',
       collectionUserList: 'UserList',
-
       //最多单次交易积分
       maxCredit: 500,
     }

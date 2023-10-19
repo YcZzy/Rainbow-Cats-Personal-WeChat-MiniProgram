@@ -18,8 +18,7 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#1a1a1a",
-    "selectedColor": "#ff99aa",
+    "custom": true,
     "list": [{
       "pagePath": "pages/MainPage/index",
       "selectedIconPath": "images/TabBar/HomeIconColor.jpg",
@@ -42,8 +41,10 @@
       "text": "仓库"
     }]
   },
+  "usingComponents": {
+    "custom-tab-bar": "custom-tab-bar"
+  },
   "lazyCodeLoading": "requiredComponents",
   "cloud": true,
-  "sitemapLocation": "sitemap.json",
-  "style": "v2"
+  "sitemapLocation": "sitemap.json"
 }

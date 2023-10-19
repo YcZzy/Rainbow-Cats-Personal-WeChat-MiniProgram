@@ -1,21 +1,4 @@
-<view style="width:100%; background: none;">
-
-<view class="form-group_label">💰 积分榜</view>
-    <view class="form-group" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);">
-    <view class="form-cell">
-        <view class="slide">
-        <view class="title">{{userA}}的积分：{{creditA}}</view>
-        </view>
-    </view>
-    <view class="form-cell">
-        <view class="slide">
-        <view class="title">{{userB}}的积分：{{creditB}}</view>
-        </view>
-    </view>
-</view>
-<view bindtap="requestSubscribeMessage">接收服务通知</view>
-  
-</view><view class="cu-bar tabbar margin-bottom-xl bg-white">
+<view class="cu-bar tabbar bg-white">
     <view class="action text-green">
         <view class="cuIcon-homefill"></view>
         首页
