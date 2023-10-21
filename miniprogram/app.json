@@ -8,7 +8,9 @@
     "pages/MarketAdd/index",
     "pages/MarketDetail/index",
     "pages/Account/index",
-    "pages/ItemDetail/index"
+    "pages/ItemDetail/index",
+    "pages/PeopleCenter/index"
+    
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -39,10 +41,21 @@
       "selectedIconPath": "images/TabBar/AccountIconColor.jpg",
       "iconPath": "images/TabBar/AccountIconGrey.jpg",
       "text": "仓库"
+    },{
+      "pagePath": "pages/PeopleCenter/index",
+      "selectedIconPath": "images/TabBar/AccountIconColor.jpg",
+      "iconPath": "images/TabBar/AccountIconGrey.jpg",
+      "text": "我的"
     }]
   },
   "usingComponents": {
-    "custom-tab-bar": "custom-tab-bar"
+    "custom-tab-bar": "custom-tab-bar",
+    "van-button": "@vant/weapp/button/index",
+    "van-share-sheet": "@vant/weapp/share-sheet/index",
+    "van-cell": "@vant/weapp/cell/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-empty": "@vant/weapp/empty/index"
   },
   "lazyCodeLoading": "requiredComponents",
   "cloud": true,

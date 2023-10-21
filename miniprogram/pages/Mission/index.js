@@ -21,6 +21,11 @@ Page({
 
   //页面加载时运行
   async onShow(){
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+          selected: 1
+      })
+    }
     await wx.cloud.callFunction({name: 'getList', data: {list: getApp().globalData.collectionMissionList}}).then(data => {
       this.setData({allMissions: data.result.data})
       this.filterMission()

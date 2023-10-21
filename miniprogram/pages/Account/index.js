@@ -10,9 +10,9 @@ Page({
         _openidB : getApp().globalData._openidB,
     
         slideButtons: [
-            {extClass: 'useBtn', text: '使用', src: "Images/icon_use.svg"},
-            {extClass: 'starBtn', text: '星标', src: "Images/icon_star.svg"},
-            {extClass: 'removeBtn', text: '删除', src: 'Images/icon_del.svg'}
+            {extClass: 'useBtn', text: '使用', src: ""},
+            {extClass: 'starBtn', text: '星标', src: ""},
+            {extClass: 'removeBtn', text: '删除', src: ''}
         ],
     },
     

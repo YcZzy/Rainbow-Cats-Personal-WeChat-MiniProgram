@@ -1,18 +1,12 @@
 <wxs module="util" src="../util.wxs" />
-
-<view class="container white" wx:if="{{allMissions.length === 0}}">
-  <image class="background" src="Images/None.png" mode="aspectFit" />
-  <view class="title">暂无任务</view>
-  <view class="subtitle">好像什么任务也没有...</view>
+<view class="margin-tb-sm padding-top-lg padding-bottom-xl" wx:if="{{allMissions.length === 0}}">
+  <view class="flex justify-center text-xsl">
+    <view class="cuIcon-searchlist text-gray icon"></view>
+  </view>
+  <view class="flex justify-center padding-top-sm">
+    <view class="text-gray text">暂无数据</view>
+  </view>
 </view>
-
-<swiper wx:if="{{allMissions.length > 0}}" indicator-dots="true" autoplay="true" interval="2000" duration="500" 
-style="height: 200px; width: 100%; background: white; ">
-      <swiper-item><image src="Images/MissionCover01.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/MissionCover02.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-      <swiper-item><image src="Images/MissionCover03.jpg" mode='widthFix' class="swiper-image" /></swiper-item>
-</swiper>
-
 <view class="container" wx:if="{{allMissions.length > 0}}">
   <view class="form-group"><view class="search-bar">
     <icon class="search-icon" type="search" size="24"></icon>

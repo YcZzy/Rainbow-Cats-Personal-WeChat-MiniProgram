@@ -1,0 +1,15 @@
+<view class="cu-good-act margin-sm bg-purple light">
+  <view class="cu-good-t-box bg-oc-pink-3">
+    <view class="cu-good-title">精选任务</view>
+  </view>
+  <view class="cu-good-point-con {{d_num==1?'cu-good-wd1':d_num==2?'cu-good-wd2':''}}">
+    <swiper class="swiper-box" indicator-dots="{{false}}" autoplay="{{true}}" interval="{{1500}}" duration="{{1000}}" circular="true" display-multiple-items="{{d_num}}">
+      <swiper-item wx:for="{{g_list}}" wx:key="index">
+        <view class="cu-good-point-flex-w">
+          <image class="cu-good-point-img radius-lg" src="{{item.img}}"></image>
+          <view>{{40}}积分</view>
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+</view>

@@ -1,4 +1,5 @@
 /* Main page of the app */
+import Toast from '@vant/weapp/toast/toast';
 Page({
     //允许接收服务通知
     async requestSubscribeMessage() {
@@ -30,19 +31,31 @@ Page({
         creditB: 0,
         userA: '',
         userB: '',
+        sexA: '',
+        sexB: '',
         avatarUrlA: '',
         avatarUrlB: '',
         bindOpenid: '',
         openid: '',
+        showShare: false,
+        options: [
+            { name: '微信', icon: 'wechat', openType: 'share' }
+        ],
     },
     async onShow() {
+        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+            this.getTabBar().setData({
+                selected: 0
+            })
+        }
         if (getApp().globalData.userInfoA._openid) {
             await this.getUserInfoA()
-            if (this.data.bindOpenid) {
-                await this.getUserInfoB()
-            }
         } else {
             await this.getOpenId()
+            await this.getUserInfoA()
+        }
+        if (this.data.bindOpenid) {
+            await this.getUserInfoB()
         }
     },
     async getOpenId() {
@@ -58,23 +71,44 @@ Page({
     },
     async getUserInfoA() {
         const data = await this.getUserInfo(getApp().globalData.userInfoA._openid)
-        const { nickname, credit, _bindOpenid, avatarUrl } = data
+        const { nickname, credit, _bindOpenid, avatarUrl, sex } = data
         getApp().globalData.userInfoA = data
         this.setData({
             userA: nickname,
             creditA: credit,
+            sexA: sex,
             avatarUrlA: avatarUrl,
             bindOpenid: _bindOpenid
         })
     },
     async getUserInfoB() {
         const data = await this.getUserInfo(this.data.bindOpenid)
-        const { nickname, credit, avatarUrl } = data
+        const { nickname, credit, avatarUrl, sex } = data
         getApp().globalData.userInfoB = data
         this.setData({
             userB: nickname,
             creditB: credit,
+            sexB: sex,
             avatarUrlB: avatarUrl
         })
-    }
+    },
+    //分享
+
+    onClick(event) {
+        this.setData({ showShare: true });
+    },
+
+    onClose() {
+        this.setData({ showShare: false });
+    },
+    onSelect(event) {
+        Toast(event.detail.name);
+        this.onClose();
+    },
+    onShareAppMessage() {
+        return {
+            title: '邀请你加入积分交易平台',
+            path: '/pages/MainPage/index?openId=' + this.data.openid
+        };
+    },
 })

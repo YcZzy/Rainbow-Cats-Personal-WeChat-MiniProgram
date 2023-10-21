@@ -1,26 +1,35 @@
-<view class="cu-bar tabbar bg-white">
-    <view class="action text-green">
+<view class="cu-bar tabbar custom-bar">
+    <!-- <view class="action text-green">
         <view class="cuIcon-homefill"></view>
         首页
     </view>
     <view class="action text-gray">
         <view class="cuIcon-similar"></view>
-        分类
+        任务
     </view>
     <view class="action text-gray add-action">
         <button class="cu-btn cuIcon-add bg-green shadow"></button>
         发布
     </view>
     <view class="action text-gray">
-        <view class="cuIcon-cart">
-            <view class="cu-tag badge">99</view>
-        </view>
-        Cart
+        <view class="cuIcon-cart"></view>
+        商城
     </view>
     <view class="action text-gray">
-        <view class="cuIcon-my">
-            <view class="cu-tag badge"></view>
-        </view>
+        <view class="cuIcon-my"></view>
         我的
+    </view> -->
+    <view class="tab-bar-border"></view>
+    <view wx:for="{{list}}" wx:key="index" class="action {{ index==selected?'text-green':'text-gray' }} {{ index=='2'? 'add-action':'' }}" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
+        <button wx:if="{{index=='2'}}" class="cu-btn cuIcon-add bg-green shadow"></button>
+        <view wx:else class="{{item.icon}}"></view>
+        {{item.text}}
     </view>
 </view>
+<!-- <view class="tab-bar">
+    <view class="tab-bar-border"></view>
+    <view wx:for="{{list}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}" data-index="{{index}}" bindtap="switchTab">
+        <image src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></image>
+        <view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
+    </view>
+</view> -->

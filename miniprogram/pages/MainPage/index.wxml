@@ -1,43 +1,33 @@
-<view style="width:100%; background: none;">
-
-<view class="form-group_label">💰 积分榜</view>
-    <view class="form-group" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);">
-    <view class="form-cell">
-        <view class="slide">
-        <view class="title">{{userA}}的积分：{{creditA}}</view>
+<view>
+    <goods></goods>
+    
+    <view class="cu-list menu-avatar card-menu">
+        <view class="cu-item">
+            <image class="cu-avatar round lg" src="{{avatarUrlA}}"></image>
+            <view class="cu-avatar round lg" style="background-image:url('{{avatarUrlA}}');">
+                <view class="cu-tag badge {{sexA===1?'cuIcon-female bg-pink1':'cuIcon-male bg-blue'}}"></view>
+            </view>
+            <view class="content">
+                <view class="text-grey">{{userA}}</view>
+            </view>
+            <view class="action margin-right">
+                <view class="cu-tag round bg-red">积分{{creditA}}</view>
+            </view>
+        </view>
+        <view class="cu-item">
+            <image class="cu-avatar round lg" src="{{avatarUrlB}}"></image>
+            <view bindtap="onClick" class="cu-avatar round lg">
+                <view class="cu-tag badge {{sexB===1?'cuIcon-female bg-pink':'cuIcon-male bg-blue'}}"></view>
+            </view>
+            <view class="content">
+                <view class="text-grey">{{userB}}</view>
+            </view>
+            <view class="action margin-right">
+                <view class="cu-tag round bg-red">积分{{creditB}}</view>
+            </view>
         </view>
     </view>
-    <view class="form-cell">
-        <view class="slide">
-        <view class="title">{{userB}}的积分：{{creditB}}</view>
-        </view>
-    </view>
-</view>
-<view bindtap="requestSubscribeMessage">接收服务通知</view>
-  
-</view><view class="cu-bar tabbar margin-bottom-xl bg-white">
-    <view class="action text-green">
-        <view class="cuIcon-homefill"></view>
-        首页
-    </view>
-    <view class="action text-gray">
-        <view class="cuIcon-similar"></view>
-        分类
-    </view>
-    <view class="action text-gray add-action">
-        <button class="cu-btn cuIcon-add bg-green shadow"></button>
-        发布
-    </view>
-    <view class="action text-gray">
-        <view class="cuIcon-cart">
-            <view class="cu-tag badge">99</view>
-        </view>
-        Cart
-    </view>
-    <view class="action text-gray">
-        <view class="cuIcon-my">
-            <view class="cu-tag badge"></view>
-        </view>
-        我的
-    </view>
+    <van-share-sheet show="{{ showShare }}" title="邀请您的好友" options="{{ options }}" bind:select="onSelect" bind:close="onClose" />
+    <!-- <view bindtap="requestSubscribeMessage">接收服务通知</view> -->
+    <van-toast id="van-toast" />
 </view>
