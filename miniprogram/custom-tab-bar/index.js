@@ -5,24 +5,21 @@ Component({
     selectedColor: "#3cc51f",
     "list": [{
       "pagePath": "/pages/MainPage/index",
-
       "icon": "cuIcon-homefill",
       "text": "首页"
     }, {
       "pagePath": "/pages/Mission/index",
-
       "icon": "cuIcon-similar",
       "text": "任务"
     }, {
-      "pagePath": "/pages/Market/index",
-
+      "pagePath": "/pages/Publish/index",
       "icon": "cuIcon-homefill",
       "text": "发布"
     }, {
-      "pagePath": "/pages/Account/index",
+      "pagePath": "/pages/Market/index",
 
       "icon": "cuIcon-cart",
-      "text": "仓库"
+      "text": "商城"
     }, {
       "pagePath": "/pages/PeopleCenter/index",
 

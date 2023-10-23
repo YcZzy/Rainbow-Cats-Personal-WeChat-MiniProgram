@@ -9,8 +9,8 @@
     "pages/MarketDetail/index",
     "pages/Account/index",
     "pages/ItemDetail/index",
-    "pages/PeopleCenter/index"
-    
+    "pages/PeopleCenter/index",
+    "pages/Publish/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -21,32 +21,38 @@
   },
   "tabBar": {
     "custom": true,
-    "list": [{
-      "pagePath": "pages/MainPage/index",
-      "selectedIconPath": "images/TabBar/HomeIconColor.jpg",
-      "iconPath": "images/TabBar/HomeIconGrey.jpg",
-      "text": "首页"
-    }, {
-      "pagePath": "pages/Mission/index",
-      "selectedIconPath": "images/TabBar/MissionIconColor.jpg",
-      "iconPath": "images/TabBar/MissionIconGrey.jpg",
-      "text": "任务"
-    },{
-      "pagePath": "pages/Market/index",
-      "selectedIconPath": "images/TabBar/MarketIconColor.jpg",
-      "iconPath": "images/TabBar/MarketIconGrey.jpg",
-      "text": "商城"
-    },{
-      "pagePath": "pages/Account/index",
-      "selectedIconPath": "images/TabBar/AccountIconColor.jpg",
-      "iconPath": "images/TabBar/AccountIconGrey.jpg",
-      "text": "仓库"
-    },{
-      "pagePath": "pages/PeopleCenter/index",
-      "selectedIconPath": "images/TabBar/AccountIconColor.jpg",
-      "iconPath": "images/TabBar/AccountIconGrey.jpg",
-      "text": "我的"
-    }]
+    "list": [
+      {
+        "pagePath": "pages/MainPage/index",
+        "selectedIconPath": "images/TabBar/HomeIconColor.jpg",
+        "iconPath": "images/TabBar/HomeIconGrey.jpg",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/Mission/index",
+        "selectedIconPath": "images/TabBar/MissionIconColor.jpg",
+        "iconPath": "images/TabBar/MissionIconGrey.jpg",
+        "text": "任务"
+      },
+      {
+        "pagePath": "pages/Publish/index",
+        "selectedIconPath": "images/TabBar/AccountIconColor.jpg",
+        "iconPath": "images/TabBar/AccountIconGrey.jpg",
+        "text": "发布"
+      },
+      {
+        "pagePath": "pages/Market/index",
+        "selectedIconPath": "images/TabBar/MarketIconColor.jpg",
+        "iconPath": "images/TabBar/MarketIconGrey.jpg",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/PeopleCenter/index",
+        "selectedIconPath": "images/TabBar/AccountIconColor.jpg",
+        "iconPath": "images/TabBar/AccountIconGrey.jpg",
+        "text": "我的"
+      }
+    ]
   },
   "usingComponents": {
     "custom-tab-bar": "custom-tab-bar",
@@ -55,7 +61,12 @@
     "van-cell": "@vant/weapp/cell/index",
     "van-toast": "@vant/weapp/toast/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-empty": "@vant/weapp/empty/index"
+    "van-empty": "@vant/weapp/empty/index",
+    "van-cell-group": "@vant/weapp/cell-group/index",
+    "van-field": "@vant/weapp/field/index",
+    "van-stepper": "@vant/weapp/stepper/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-popup": "@vant/weapp/popup/index"
   },
   "lazyCodeLoading": "requiredComponents",
   "cloud": true,

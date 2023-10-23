@@ -23,6 +23,11 @@ Page({
 
   //页面加载时运行
   async onShow(){
+    if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+      this.getTabBar().setData({
+          selected: 3
+      })
+    }
     this.getCurrentCredit()
     this.getUser()
     await wx.cloud.callFunction({name: 'getList', data: {list: getApp().globalData.collectionMarketList}}).then(data => {

@@ -1,5 +1,10 @@
 Page({
   data: {
+    bg_color: "pink",
+    emoji: "🌈",
+    date: "2021-01-01",
+    title: "任务",
+    m2: "100",
     screenWidth: 1000,
     screenHeight: 1000,
 
