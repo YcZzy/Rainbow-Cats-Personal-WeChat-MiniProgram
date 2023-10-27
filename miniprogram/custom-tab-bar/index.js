@@ -2,7 +2,7 @@ Component({
   data: {
     selected: 0,
     color: "#7A7E83",
-    selectedColor: "#3cc51f",
+    selectedColor: "#e03997",
     "list": [{
       "pagePath": "/pages/MainPage/index",
       "icon": "cuIcon-homefill",

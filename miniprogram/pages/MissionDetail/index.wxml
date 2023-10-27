@@ -1,20 +1,17 @@
 <wxs module="util" src="../util.wxs" />
-
-<view class="container white" style="animation-name: animation-blur; animation-duration: 0.8s;">
-  <image src="../../images/Mission.gif" mode='widthFix' />
-  <view class="form-group" 
-  style="z-index: 0; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05); ">
+<view>
+  <view class="padding-xs shadow">
     <view class="form-cell">
       <view class="mission-info_title">📌 任务名称</view>
-      <view class="mission-info_desc">{{mission.title}}</view>
+      <view class="mission-info_desc">{{item.title}}</view>
     </view>
     <view class="form-cell">
-      <view class="mission-info_title">💡 执行计划</view>
-      <view class="mission-info_desc">此任务由{{from}}申请执行，由{{to}}监督确认。</view>
+      <view class="mission-info_title">💡 创建人</view>
+      <view class="mission-info_desc">{{item.creator}}</view>
     </view>
     <view class="form-cell">
-      <view class="mission-info_title">💰 奖励力度：{{mission.credit}} 积分</view>
-      <progress percent="{{creditPercent}}" border-radius="5" font-size="8" duration="10" color="lightsalmon" active stroke-width="7"> 
+      <view class="mission-info_title">💰 奖励力度：{{item.credit}} 积分</view>
+      <progress percent="{{creditPercent}}" border-radius="5" font-size="8" duration="10" color="lightsalmon" active stroke-width="7">
         <view class="mission-info_credit">{{maxCredit}} 积分</view>
       </progress>
     </view>
@@ -24,7 +21,18 @@
     </view>
     <view class="form-cell">
       <view class="mission-info_title">📝 任务详情</view>
-      <view class="mission-info_desc">{{mission.desc}}</view>
+      <view class="mission-info_desc">{{item.desc}}</view>
+    </view>
+    <view wx:if="{{isCanDelete}}" class="box margin-sm">
+      <view class="cu-bar btn-group" bindtap="deleteList">
+        <button class="cu-btn text-pink shadow bg-white">删除</button>
+      </view>
+    </view>
+    <view wx:else class="box margin-sm">
+      <view class="cu-bar btn-group">
+        <button class="cu-btn bg-pink shadow" bindtap="starMission">收藏</button>
+        <button class="cu-btn text-pink shadow bg-white" bindtap="finishMission">完成</button>
+      </view>
     </view>
   </view>
 </view>

@@ -41,6 +41,31 @@ Page({
         options: [
             { name: '微信', icon: 'wechat', openType: 'share' }
         ],
+        Headlines: [],
+        tts: '',
+        tomorrow: '',
+    },
+    getTomorrow() {
+        wx.request({
+            url: 'https://timor.tech/api/holiday/tts/tomorrow?timestamp=' + new Date().getTime(),
+            success(res) {
+                const { code, tts } = res.data || {};
+                if (code === 0) {
+                    Toast(tts);
+                }
+            }
+        })
+    },
+    //获取页面大小
+    async getScreenSize() {
+        wx.getSystemInfo({
+            success: (res) => {
+                this.setData({
+                    screenWidth: res.windowWidth,
+                    screenHeight: res.windowHeight
+                })
+            }
+        })
     },
     async onShow() {
         if (typeof this.getTabBar === 'function' && this.getTabBar()) {
@@ -48,6 +73,25 @@ Page({
                 selected: 0
             })
         }
+        this.getScreenSize()
+        const _this = this
+        wx.request({
+            url: 'https://timor.tech/api/holiday/tts?timestamp=' + new Date().getTime(),
+            success(res) {
+                const { code, tts } = res.data || {};
+                if (code === 0) {
+                    _this.setData({
+                        tts,
+                        Headlines: [
+                            {
+                                id: 0,
+                                title: tts
+                            }
+                        ]
+                    })
+                }
+            }
+        })
         if (getApp().globalData.userInfoA._openid) {
             await this.getUserInfoA()
         } else {

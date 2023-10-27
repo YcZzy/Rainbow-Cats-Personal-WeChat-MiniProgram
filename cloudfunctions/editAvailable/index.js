@@ -13,7 +13,7 @@ exports.main = async (context) => {
     _id: context._id
   }).update({
     data: {
-      available: context.value
+      isFinish: context.value
     }
   })
 }

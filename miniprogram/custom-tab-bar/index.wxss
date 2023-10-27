@@ -1,14 +1,15 @@
 @import "../app.wxss";
 .custom-bar{
     background: #fff;
+    height: 100rpx;
 }
 .text-green{
-    color: #3eb93b;
+    color: #e03997;
 }
 .text-gray{
     color: #969696;
 }
 .bg-green{
-    background: #3eb93b;
+    background: #e03997;
     color: #fff;
 }

@@ -2,16 +2,14 @@
   <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
     <image class="avatar" src="{{avatarUrl}}"></image>
   </button>
-  <image class="avatar" src="{{avatarUrl}}"></image>
   <mp-form>
     <mp-cells>
       <mp-cell title="昵称">
-        <input type="nickname" bindinput="change" class="weui-input" placeholder="请输入昵称" />
+        <input type="nickname" value="{{nickname}}" bindinput="change" class="weui-input" placeholder="请输入昵称" />
       </mp-cell>
     </mp-cells>
   </mp-form>
-  {{avatarUrl}}
   <view class="flex flex-column radius-lg">
-    <button class="cu-btn bg-green margin-tb-sm lg" bindtap="submit">提交</button>
+    <button class="cu-btn bg-green margin-tb-sm lg shadow" bindtap="submit">提交</button>
   </view>
 </view>

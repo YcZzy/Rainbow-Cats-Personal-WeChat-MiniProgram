@@ -9,6 +9,8 @@
       商品
     </view>
   </scroll-view>
+  <van-cell title="emoji" icon="question-o" is-link bind:click="jumpPageChoise" value="{{emoji}}" />
+  <!-- <view class="flex-sub bg-white light text-xxxl" bindtap="jumpPageChoise" data-page="choiseEmoji" hover-class="item-hover" hover-stay-time="100">{{emoji}}</view> -->
   <view wx:for="{{10}}" wx:key="index" wx:if="{{index==TabCur}}" class="light radius">
     <view wx:if="{{index==0}}">
       <van-cell-group>

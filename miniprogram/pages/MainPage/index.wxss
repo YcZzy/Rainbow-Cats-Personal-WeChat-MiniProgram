@@ -13,12 +13,22 @@
   font-size: 12px;
 }
 
-.swiper-image{
+.swiper-image {
   display: block;
-  height: 100%; 
+  height: 100%;
   width: 100%;
   position: relative;
   background-color: darkgray;
   background-repeat: no-repeat;
   background-size: contain;
+}
+.main-page {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.fixed-btn {
+  position: fixed;
+  bottom: 20rpx;
+  right: 10rpx;
 }

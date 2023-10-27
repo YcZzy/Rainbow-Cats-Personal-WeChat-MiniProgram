@@ -3,74 +3,80 @@ Page({
     bg_color: "pink",
     emoji: "🌈",
     date: "2021-01-01",
-    title: "任务",
-    m2: "100",
-    screenWidth: 1000,
-    screenHeight: 1000,
-
-    search: "",
-
-    allMissions: [],
-    unfinishedMissions: [],
-    finishedMissions: [],
-
-    _openidA : getApp().globalData._openidA,
-    _openidB : getApp().globalData._openidB,
-
-    slideButtons: [
-      {extClass: 'markBtn', text: '标记', src: "Images/icon_mark.svg"},
-      {extClass: 'starBtn', text: '星标', src: "Images/icon_star.svg"},
-      {extClass: 'removeBtn', text: '删除', src: 'Images/icon_del.svg'}
+    _openidA: getApp().globalData.userInfoA._openid,
+    _openidB: getApp().globalData.userInfoB._openid,
+    option1: [
+      { text: '全部任务', value: 'allDataList' },
+      { text: '已完成的', value: 'finishedMissions' },
+      { text: '未完成的', value: 'unfinishedMissions' },
+      { text: '我发布的', value: 'myMissions' },
+      { text: 'ta发布的', value: 'taMissions' },
+      { text: '我收藏的', value: 'starMissions' },
     ],
+    option2: [
+      { text: '默认排序', value: 'defaultSort' },
+      { text: '时间排序', value: 'timeSort' },
+      { text: '积分排序', value: 'scoreSort' },
+    ],
+    value1: 'allDataList',
+    value2: 'defaultSort',
+    allStatusData: {},
+    loading: true
   },
-
+  changeStatus(value) {
+    this.setData({ value1: value.detail });
+  },
   //页面加载时运行
-  async onShow(){
+  async onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
-          selected: 1
+        selected: 1
       })
     }
-    await wx.cloud.callFunction({name: 'getList', data: {list: getApp().globalData.collectionMissionList}}).then(data => {
-      this.setData({allMissions: data.result.data})
-      this.filterMission()
-      this.getScreenSize()
-    })
-  },
-
-  //获取页面大小
-  async getScreenSize(){
-    wx.getSystemInfo({
-      success: (res) => {
-        this.setData({
-          screenWidth: res.windowWidth,
-          screenHeight: res.windowHeight
-        })
+    // 获取任务
+    await wx.cloud.callFunction({ name: 'getList', data: { list: getApp().globalData.collectionMissionList } }).then(data => {
+      // 分别找到data.result.data中的已完成，未完成，我发布的，ta发布的，我收藏的任务 并保存到本地
+      const allDataList = data.result.data;
+      const allStatusData = {
+        allDataList: allDataList,
+        finishedMissions: [],
+        unfinishedMissions: [],
+        myMissions: [],
+        taMissions: [],
+        starMissions: [],
+        loading: false
       }
+      allDataList.forEach(element => {
+        if (element._openid === this.data._openidA) {
+          allStatusData.myMissions.push(element)
+        } else {
+          allStatusData.taMissions.push(element)
+          if (element.isFinish === true) {
+            allStatusData.finishedMissions.push(element)
+          }
+          if (element.isFinish === false) {
+            allStatusData.unfinishedMissions.push(element)
+          }
+          if (element.star === true) {
+            allStatusData.starMissions.push(element)
+          }
+        }
+      })
+      this.setData({
+        allStatusData
+      })
     })
   },
 
   //转到任务详情
   async toDetailPage(element, isUpper) {
-    const missionIndex = element.currentTarget.dataset.index
-    const mission = isUpper ? this.data.unfinishedMissions[missionIndex] : this.data.finishedMissions[missionIndex]
-    wx.navigateTo({url: '../MissionDetail/index?id=' + mission._id})
-  },
-  //转到任务详情[上]
-  async toDetailPageUpper(element) {
-    this.toDetailPage(element, true)
-  },  
-  //转到任务详情[下]
-  async toDetailPageLower(element) {
-    this.toDetailPage(element, false)
-  },
-  //转到添加任务
-  async toAddPage() {
-    wx.navigateTo({url: '../MissionAdd/index'})
+    const id = element.currentTarget.dataset.id
+    const item = element.currentTarget.dataset.item
+    wx.navigateTo({ url: '../MissionDetail/index?id=' + id + '&item=' + JSON.stringify(item) })
   },
 
   //设置搜索
-  onSearch(element){
+  onSearch(element) {
     this.setData({
       search: element.detail.value
     })
@@ -78,95 +84,30 @@ Page({
     this.filterMission()
   },
 
-  //将任务划分为：完成，未完成
-  filterMission(){
-    let missionList = []
-    if(this.data.search != ""){
-      for(let i in this.data.allMissions){
-        if(this.data.allMissions[i].title.match(this.data.search) != null){
-          missionList.push(this.data.allMissions[i])
-        }
-      }
-    }else{
-      missionList = this.data.allMissions
-    }
+  //将任务划分为：完成，未完成 
+  // status 0-全部  1-已完成  2-未完成  3-我发布的  4-ta发布的  5-我收藏的
+  // sort 0-时间排序  1-积分排序
+  // openid相等的为我发布的 3-我发布的
+  // openid不相等的为ta发布的  1-已完成  2-未完成  4-ta发布的  5-我收藏的
+  // 我发布一个新任务 存 openid 2-未完成
+  // filterMission() {
+  //   let missionList = []
+  //   if (this.data.search != "") {
+  //     for (let i in this.data.allMissions) {
+  //       if (this.data.allMissions[i].title.match(this.data.search) != null) {
+  //         missionList.push(this.data.allMissions[i])
+  //       }
+  //     }
+  //   } else {
+  //     missionList = this.data.allMissions
+  //   }
 
-    this.setData({
-      unfinishedMissions: missionList.filter(item => item.available === true),
-      finishedMissions: missionList.filter(item => item.available === false),
-    })
-  },
+  //   this.setData({
+  //     unfinishedMissions: missionList.filter(item => item.available === true),
+  //     finishedMissions: missionList.filter(item => item.available === false),
+  //   })
+  // },
 
-  //响应左划按钮事件[上]
-  async slideButtonTapUpper(element) {
-    this.slideButtonTap(element, true)
-  },
-
-  //响应左划按钮事件[下]
-  async slideButtonTapLower(element) {
-    this.slideButtonTap(element, false)
-  },
-
-  //响应左划按钮事件逻辑
-  async slideButtonTap(element, isUpper){
-    //得到UI序号
-    const {index} = element.detail
-
-    //根据序号获得任务
-    const missionIndex = element.currentTarget.dataset.index
-    const mission = isUpper === true ? this.data.unfinishedMissions[missionIndex] : this.data.finishedMissions[missionIndex]
-
-    await wx.cloud.callFunction({name: 'getOpenId'}).then(async openid => {
-
-        //处理完成点击事件
-        if (index === 0) {
-            if(isUpper) {
-                this.finishMission(element)
-            }else{
-                wx.showToast({
-                    title: '任务已经完成',
-                    icon: 'error',
-                    duration: 2000
-                })
-            }
-
-        }else if(mission._openid === openid.result){
-            //处理星标按钮点击事件
-            if (index === 1) {
-                wx.cloud.callFunction({name: 'editStar', data: {_id: mission._id, list: getApp().globalData.collectionMissionList, value: !mission.star}})
-                //更新本地数据
-                mission.star = !mission.star
-            }
-            
-            //处理删除按钮点击事件
-            else if (index === 2) {
-                wx.cloud.callFunction({name: 'deleteElement', data: {_id: mission._id, list: getApp().globalData.collectionMissionList}})
-                //更新本地数据
-                if(isUpper) this.data.unfinishedMissions.splice(missionIndex, 1) 
-                else this.data.finishedMissions.splice(missionIndex, 1) 
-                //如果删除完所有事项，刷新数据，让页面显示无事项图片
-                if (this.data.unfinishedMissions.length === 0 && this.data.finishedMissions.length === 0) {
-                    this.setData({
-                    allMissions: [],
-                    unfinishedMissions: [],
-                    finishedMissions: []
-                    })
-                }
-            }
-
-            //触发显示更新
-            this.setData({finishedMissions: this.data.finishedMissions, unfinishedMissions: this.data.unfinishedMissions})
-
-        //如果编辑的不是自己的任务，显示提醒
-        }else{
-            wx.showToast({
-            title: '只能编辑自己的任务',
-            icon: 'error',
-            duration: 2000
-            })
-        }
-    })
-  },
 
   //完成任务
   async finishMission(element) {
@@ -174,11 +115,11 @@ Page({
     const missionIndex = element.currentTarget.dataset.index
     const mission = this.data.unfinishedMissions[missionIndex]
 
-    await wx.cloud.callFunction({name: 'getOpenId'}).then(async openid => {
-      if(mission._openid != openid.result){
+    await wx.cloud.callFunction({ name: 'getOpenId' }).then(async openid => {
+      if (mission._openid != openid.result) {
         //完成对方任务，奖金打入对方账号
-        await wx.cloud.callFunction({name: 'editAvailable', data: {_id: mission._id, value: false, list: getApp().globalData.collectionMissionList}})
-        await wx.cloud.callFunction({name: 'editCredit', data: {_openid: mission._openid, value: mission.credit, list: getApp().globalData.collectionUserList}})
+        await wx.cloud.callFunction({ name: 'editAvailable', data: { _id: mission._id, value: false, list: getApp().globalData.collectionMissionList } })
+        await wx.cloud.callFunction({ name: 'editCredit', data: { _openid: mission._openid, value: mission.credit, list: getApp().globalData.collectionUserList } })
 
         //触发显示更新
         mission.available = false
@@ -186,12 +127,12 @@ Page({
 
         //显示提示
         wx.showToast({
-            title: '任务完成',
-            icon: 'success',
-            duration: 2000
+          title: '任务完成',
+          icon: 'success',
+          duration: 2000
         })
 
-      }else{
+      } else {
         wx.showToast({
           title: '不能完成自己的任务',
           icon: 'error',

@@ -7,6 +7,7 @@ Page({
   data: {
     showTask: false,
     showProduct: false,
+    emoji: "🌈",
     TabCur: 0,
     taskName: '',
     taskTitle: '',
@@ -151,8 +152,9 @@ Page({
   onCloseProduct() {
     this.setData({ showProduct: false });
   },
-  submit(){
-    const { TabCur, taskTitle, taskDesc, taskName, taskScore,productTitle, productDesc, productName,productScore } = this.data;
+  submit() {
+    const { TabCur, taskTitle, taskDesc, taskName, taskScore, productTitle, productDesc, productName, productScore, emoji } = this.data;
+    // 发布任务
     if (TabCur == 0) {
       if (taskName == '') {
         wx.showToast({
@@ -162,6 +164,9 @@ Page({
         })
         return;
       }
+      wx.showLoading({
+        title: 'loading~',
+      })
       wx.cloud.callFunction({
         name: 'addElement',
         data: {
@@ -169,12 +174,17 @@ Page({
           title: taskTitle,
           desc: taskDesc,
           credit: taskScore,
+          isFinish: false,
+          star: false,
+          emoji: emoji,
+          creator: getApp().globalData.userInfoA.nickname,
+          bg_color: getApp().globalData.userInfoA.sex === 0 ? 'blue' : 'pink'
         }
-      })
-      wx.showToast({
-        title: '提交成功',
-        icon: 'success',
-        duration: 2000
+      }).then(res => {
+        wx.hideLoading()
+        if (res.result.errMsg == 'collection.add:ok') {
+          wx.switchTab({ url: '/pages/Mission/index' })
+        }
       })
     } else {
       if (productName == '') {
@@ -192,12 +202,22 @@ Page({
           title: productTitle,
           desc: productDesc,
           credit: productScore,
+          emoji: emoji,
+          creator: getApp().globalData.userInfoA.nickname,
         }
       })
       // wx.navigateTo({
       //   url: `/pages/PublishProduct/index?title=${productTitle}&desc=${productDesc}&name=${productName}`,
       // })
     }
+  },
+  jumpPageChoise(e) {
+    // try {
+    //   wx.setStorageSync('emoji', this.data.emoji)
+    // } catch (e) {}wxb056275c9cf496b8
+    wx.navigateTo({
+      url: '/pages/Publish/choiseEmoji/choiseEmoji',
+    })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -222,6 +242,9 @@ Page({
         selected: 2
       })
     }
+    this.setData({
+      emoji: wx.getStorageSync('emoji') || "🌈",
+    })
   },
 
   /**

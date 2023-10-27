@@ -18,9 +18,12 @@ exports.main = async (context) => {
       
       title: context.title,
       desc: context.desc,
-
-      available: true,
-      star: false
+      
+      star: context.star,
+      isFinish: context.isFinish,
+      emoji: context.emoji,
+      creator: context.creator,
+      bg_color: context.bg_color
     }
   })
 }

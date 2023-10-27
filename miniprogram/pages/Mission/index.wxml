@@ -1,91 +1,45 @@
 <wxs module="util" src="../util.wxs" />
-<view class="margin-tb-sm padding-top-lg padding-bottom-xl" wx:if="{{allMissions.length === 0}}">
-  <view class="flex justify-center text-xsl">
-    <view class="cuIcon-searchlist text-gray icon"></view>
-  </view>
-  <view class="flex justify-center padding-top-sm">
-    <view class="text-gray text">暂无数据</view>
-  </view>
-</view>
-<view class="grid col-1 padding-sm">
-  <view class="padding-sm">
-    <view class="bg-{{bg_color}} padding-sm radius-lg text-center light">
-      <view class="flex padding-xs justify-between">
-        <view class="text-xsl">{{emoji}}</view>
-        <view>
-          <view class="padding-xs radius text-right " style="margin-top: -20rpx;">
-            <text>{{date}}</text>
-          </view>
-          <view class="padding-xs radius text-xxxl text-right text-cut padding-tb">
-            <text class="text-cut">{{title||'在下方输入标题'}}</text>
-          </view>
-          <view class="padding-xs radius text-right text-cut" style="margin-bottom: -20rpx;">
-            <text class="text-xl">还有</text>
-            <text class="text-sl">{{m2}}</text>
-            <text class="text-xl">天</text>
+<!-- 任务列表页 -->
+<van-sticky>
+  <van-dropdown-menu>
+    <van-dropdown-item value="{{ value1 }}" options="{{ option1 }}" bind:change="changeStatus" />
+    <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+  </van-dropdown-menu>
+</van-sticky>
+<view class="grid col-1 padding-xs">
+  <view class="padding-sm padding-bottom-xs" wx:for="{{allStatusData[value1]}}" wx:key="index">
+    <view class="margin-tb-sm padding-top-lg padding-bottom-xl" wx:if="{{allStatusData.allDataList.length === 0}}">
+      <view class="flex justify-center text-xsl">
+        <view class="cuIcon-searchlist text-gray icon"></view>
+      </view>
+      <view class="flex justify-center padding-top-sm">
+        <view class="text-gray text">暂无数据</view>
+      </view>
+    </view>
+    <!-- <van-skeleton row="4" loading="{{ loading }}"> -->
+      <view class="bg-{{item.bg_color}} padding-xs radius-lg text-center light" bindtap="toDetailPage" data-id='{{item._id}}' data-item='{{item}}'>
+        <view class="flex padding-xs justify-between">
+          <view class="text-xsl">{{item.emoji || '🌈'}}</view>
+          <view>
+            <view class="adius text-right">
+              <text>{{util.cutStr(item.date, 10)}}</text>
+            </view>
+            <view class="radius text-xl text-right text-cut">
+              <text class="text-cut">{{item.title||'在下方输入标题'}}</text>
+            </view>
+            <view class="radius text-right text-cut">
+              <text class="text-xs">完成可得</text>
+              <text class="text-sm">{{item.credit}}</text>
+              <text class="text-xs">积分</text>
+            </view>
+            <view class="text-right">
+              <view wx:if="{{item.isFinish}}" class="cu-tag bg-gray radius sm">已完成</view>
+              <view wx:if="{{item.star}}" class="cu-tag bg-red radius sm">已收藏</view>
+            </view>
           </view>
         </view>
       </view>
-    </view>
+    <!-- </van-skeleton> -->
   </view>
 </view>
-<view class="container" wx:if="{{allMissions.length > 0}}">
-  <view class="form-group">
-    <view class="search-bar">
-      <icon class="search-icon" type="search" size="24"></icon>
-      <input class="search-input" placeholder="搜索任务" bindinput="onSearch" value="{{search}}" />
-    </view>
-  </view>
-  <view class="form-group_label">
-    未完成
-    <mp-badge content="{{unfinishedMissions.length}}" style="margin-left: 5px;" />
-  </view>
-  <view class="form-group" wx:if="{{unfinishedMissions.length > 0}}" style="z-index: 0; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);">
-    <view class="form-cell" wx:for="{{unfinishedMissions}}" wx:key="index">
-      <mp-slideview buttons="{{slideButtons}}" data-index='{{index}}' icon="{{true}}" bindbuttontap="slideButtonTapUpper">
-        <view class="slide" data-index="{{index}}" bindtap="toDetailPageUpper">
-          <view class="mission-info">
-            <view class="mission-info_title">{{util.filterStr(item.title, 10)}}</view>
-            <view class="mission-info_award">💰 {{util.filterStr(item.credit, 10)}} 积分</view>
-            <view class="mission-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
-          </view>
-          <view class="mission-info_author">
-            <image style="position: absolute; width: 100%; bottom: 0;" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MissionA.png" />
-            <image style="position: absolute; width: 100%; bottom: 0;" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MissionB.png" />
-          </view>
-          <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
-        </view>
-      </mp-slideview>
-    </view>
-  </view>
-  <view class="form-group_label">
-    已完成
-    <mp-badge content="{{finishedMissions.length}}" style="margin-left: 5px;" />
-  </view>
-  <view class="form-group" wx:if="{{finishedMissions.length > 0}}" style="z-index: 0; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);">
-    <view class="form-cell" wx:for="{{finishedMissions}}" wx:key="index">
-      <mp-slideview buttons="{{slideButtons}}" data-index='{{index}}' icon="{{true}}" bindbuttontap="slideButtonTapLower">
-        <view class="slide" data-index="{{index}}" bindtap="toDetailPageLower">
-          <view class="mission-info">
-            <view class="mission-info_title">{{util.filterStr(item.title, 10)}}</view>
-            <view class="mission-info_award">💰 {{util.filterStr(item.credit, 10)}} 积分</view>
-            <view class="mission-info_date">📅 {{util.cutStr(item.date, 10)}} 创建</view>
-          </view>
-          <view class="mission-info_author">
-            <image style="position: absolute; width:100%; bottom: 0;" wx:if="{{item._openid === _openidA}}" mode="widthFix" src="Images/MissionA.png" />
-            <image style="position: absolute; width:100%; bottom: 0;" wx:if="{{item._openid === _openidB}}" mode="widthFix" src="Images/MissionB.png" />
-          </view>
-          <image wx:if="{{item.star}}" class="star" src="Images/Star.png" />
-        </view>
-      </mp-slideview>
-    </view>
-  </view>
-</view>
-<movable-area style="pointer-events: none; position: fixed; width: 100%; height: 100%;">
-  <movable-view style="pointer-events: auto; width: 20%; height: 20%;" x="{{screenWidth}}" y="{{screenHeight}}" direction="all">
-    <button class="btn-normal" hover-class="btn-hover" size="mini" bindtap="toAddPage" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-      <image style="margin-top: 10px; height: 100%; width: 100%;" mode="widthFix" src="Images/Plus.png" />
-      任务
-    </button>
-  </movable-view>
-</movable-area>
+<view style="height: 100rpx;"></view>

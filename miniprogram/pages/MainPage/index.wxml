@@ -1,6 +1,6 @@
 <view>
+    <van-notice-bar left-icon="volume-o" text="{{tts}}" background="var(--pinkLight)" color="var(--pink)" />
     <goods></goods>
-    
     <view class="cu-list menu-avatar card-menu">
         <view class="cu-item">
             <image class="cu-avatar round lg" src="{{avatarUrlA}}"></image>
@@ -31,3 +31,10 @@
     <!-- <view bindtap="requestSubscribeMessage">接收服务通知</view> -->
     <van-toast id="van-toast" />
 </view>
+<movable-area style="pointer-events: none; position: fixed; width: 100%; height: 100%;">
+  <movable-view style="pointer-events: auto; width: 20%; height: 20%;" x="{{screenWidth}}" y="{{screenHeight}}" direction="all">
+    <button class="cu-btn icon bg-pink lg" bindtap="getTomorrow">
+        <text class="cuIcon-emoji text-white"></text>
+    </button>
+  </movable-view>
+</movable-area>

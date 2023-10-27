@@ -7,7 +7,7 @@ Page({
   data: {
     avatarUrl: getApp().globalData.userInfoA.avatarUrl || defaultAvatarUrl,
     theme: wx.getSystemInfoSync().theme,
-    nickname: '',
+    nickname: getApp().globalData.userInfoA.nickname || '',
     openid: '',
   },
   onShow() {

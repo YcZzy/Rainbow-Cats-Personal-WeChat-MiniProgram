@@ -1,16 +1,16 @@
 <wxs module="util" src="../util.wxs" />
 
 <view class="container white" style="animation-name: animation-blur; animation-duration: 0.8s;">
-  <image src="../../images/Item.gif" mode='widthFix' />
+  <!-- <image src="../../images/Item.gif" mode='widthFix' /> -->
   <view class="form-group" style="z-index: 0; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.05), 0 6px 20px 0 rgba(0, 0, 0, 0.05);">
     <view class="form-cell">
       <view class="item-info_title">📌 商品名称</view>
       <view class="item-info_desc">{{item.title}}</view>
     </view>
-    <view class="form-cell">
+    <!-- <view class="form-cell">
       <view class="item-info_title">💡 购买关系</view>
       <view class="item-info_desc">此商品由{{from}}上架，由{{to}}购买。</view>
-    </view>
+    </view> -->
     <view class="form-cell">
       <view class="item-info_title">💰 商品价值：{{item.credit}} 积分</view>
       <progress percent="{{creditPercent}}" border-radius="5" font-size="8" duration="10" color="lightsalmon" active stroke-width="7"> 
@@ -26,4 +26,8 @@
       <view class="item-info_desc">{{item.desc}}</view>
     </view>
   </view>
+  <button>删除（删除自己的）</button>
+  <button>编辑（编辑自己的）</button>
+  <button>完成（完成别人的）</button>
+  <button>收藏 (收藏别人的)</button>
 </view>
