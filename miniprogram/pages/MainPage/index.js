@@ -44,6 +44,10 @@ Page({
         Headlines: [],
         tts: '',
         tomorrow: '',
+        showGuide: false,
+        guideData: [
+            { selector: '.shareIcon', tips: '邀请好朋友来一起做任务～' },
+        ],
     },
     getTomorrow() {
         wx.request({
@@ -67,13 +71,7 @@ Page({
             }
         })
     },
-    async onShow() {
-        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
-            this.getTabBar().setData({
-                selected: 0
-            })
-        }
-        this.getScreenSize()
+    getHeadlines() {
         const _this = this
         wx.request({
             url: 'https://timor.tech/api/holiday/tts?timestamp=' + new Date().getTime(),
@@ -92,15 +90,17 @@ Page({
                 }
             }
         })
-        if (getApp().globalData.userInfoA._openid) {
-            await this.getUserInfoA()
-        } else {
-            await this.getOpenId()
-            await this.getUserInfoA()
+    },
+    async onShow() {
+        if (typeof this.getTabBar === 'function' && this.getTabBar()) {
+            this.getTabBar().setData({
+                selected: 0
+            })
         }
-        if (this.data.bindOpenid) {
-            await this.getUserInfoB()
-        }
+        this.getScreenSize()
+        this.getHeadlines()
+        await this.getUserInfoA()
+        await this.getUserInfoB()
     },
     async getOpenId() {
         const res = await wx.cloud.callFunction({ name: 'getOpenId' })
@@ -115,6 +115,9 @@ Page({
     },
     async getUserInfoA() {
         const data = await this.getUserInfo(getApp().globalData.userInfoA._openid)
+        if (!data) {
+            return
+        }
         const { nickname, credit, _bindOpenid, avatarUrl, sex } = data
         getApp().globalData.userInfoA = data
         this.setData({
@@ -125,8 +128,11 @@ Page({
             bindOpenid: _bindOpenid
         })
     },
-    async getUserInfoB() {
-        const data = await this.getUserInfo(this.data.bindOpenid)
+    async getUserInfoB(id) {
+        const data = await this.getUserInfo(id || this.data.bindOpenid)
+        if (!data) {
+            return
+        }
         const { nickname, credit, avatarUrl, sex } = data
         getApp().globalData.userInfoB = data
         this.setData({
@@ -135,6 +141,40 @@ Page({
             sexB: sex,
             avatarUrlB: avatarUrl
         })
+    },
+    // 判断是否是新用户
+    async isNewUser() {
+        const res = await wx.cloud.callFunction({ name: 'getElementByOpenId', data: { list: getApp().globalData.collectionUserList, _openid: this.data.openid } })
+        if (res.result.data.length === 0) {
+            return true
+        } else {
+            return false
+        }
+    },
+
+    async onLoad(options) {
+        await this.getOpenId()
+        const isNewUser = await this.isNewUser()
+        if (isNewUser) {
+            // 注册新用户
+            await wx.cloud.callFunction({ name: 'addUserInfo', data: { list: getApp().globalData.collectionUserList } })
+        }
+        await this.getUserInfoA()
+        // 绑定用户
+        if (options.bindOpenid && !this.data.bindOpenid) {
+            await wx.cloud.callFunction({ name: 'editUserBindId', data: { list: getApp().globalData.collectionUserList, _openid: this.data.openid, _bindOpenid: options.bindOpenid } })
+            await wx.cloud.callFunction({ name: 'editUserBindId', data: { list: getApp().globalData.collectionUserList, _openid: options.bindOpenid, _bindOpenid: this.data.openid } })
+            await this.getUserInfoA()
+            await this.getUserInfoB()
+        }
+        // 获取自己的信息
+        await this.getUserInfoA()
+        await this.getUserInfoB()
+        if (!this.data.userB) {
+            this.setData({
+                showGuide: true
+            })
+        }
     },
     //分享
 
@@ -151,8 +191,8 @@ Page({
     },
     onShareAppMessage() {
         return {
-            title: '邀请你加入积分交易平台',
-            path: '/pages/MainPage/index?openId=' + this.data.openid
+            title: this.data.userA +'邀请你加入my team 一起做任务吧！',
+            path: '/pages/MainPage/index?bindOpenid=' + this.data.openid
         };
     },
 })

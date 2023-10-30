@@ -1,5 +1,5 @@
 <view>
-  <scroll-view scroll-x class="bg-blue nav text-center">
+  <scroll-view scroll-x class="bg-pink nav text-center">
     <view class="cu-item {{0==TabCur?'text-white cur':''}}" bindtap="tabSelect" data-id="0">
       <text class="cuIcon-formfill"></text>
       任务
@@ -39,7 +39,7 @@
       </van-cell-group>
     </view>
     <view class="flex flex-column radius-lg">
-      <button class="cu-btn bg-green margin-tb-sm lg" bindtap="submit">提交</button>
+      <button class="cu-btn text-pink bg-white margin-tb-sm lg" bindtap="submit">提交</button>
     </view>
   </view>
 </view>

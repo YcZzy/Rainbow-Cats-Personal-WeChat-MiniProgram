@@ -16,9 +16,9 @@
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#ff99aa",
+    "navigationBarBackgroundColor": "#e03997",
     "navigationBarTitleText": "卡比们的任务",
-    "navigationBarTextStyle": "black"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "custom": true,

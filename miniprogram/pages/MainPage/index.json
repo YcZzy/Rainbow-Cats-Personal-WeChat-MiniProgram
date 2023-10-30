@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "goods": "./components/goods/goods"
+    "goods": "./components/goods/goods",
+    "weapp-new-user-guide": "../components/guide/index"
   }
 }
